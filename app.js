@@ -7,8 +7,22 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (response, textStatus) {
                 $('#todo-list').empty();
+                response.tasks.forEach(function(task, i) {
+                    if (response.tasks[i].completed === true && filter === 'active') {
+                        $('.task-row').addClass('hide');
+                        console.log('active')
+                    };
+                    if (response.tasks[i].completed === false && filter === 'complete') {
+                        $('.task-row').addClass('hide');
+                        console.log('complete')
+                    };
+                    if (filter === 'all') {
+                        $('.task-row').removeClass('hide');
+                    }
+                    
+                });
                 response.tasks.forEach(function (task) {
-                    $('#todo-list').append('<div class="row"><p class="col-xs-8">' + task.content + '</p><button class="delete btn-danger" data-id="' + task.id + '">Delete</button><input type="checkbox" class="mark-complete" data-id="' + task.id + '"' + (task.completed ? 'checked' : '') + '>');
+                    $('#todo-list').append('<div class="row task-row"><p class="col-xs-8">' + task.content + '</p><button class="delete btn-danger" data-id="' + task.id + '">Delete</button><input type="checkbox" class="mark-complete" data-id="' + task.id + '"' + (task.completed ? 'checked' : '') + '>');
             });
             },
             error: function (request, textStatus, errorMessage) {
@@ -96,6 +110,23 @@ $(document).ready(function(){
           }
         });
       }
+//Filter buttons
+    var filter = 'all';
+    $('#active').on('click', function (e) {
+        e.preventDefault();
+        filter = 'active';
+        getAllTasks();
+    });
+    $('#complete').on('click', function (e) {
+        e.preventDefault();
+        filter = 'complete';
+        getAllTasks();
+    });
+    $('#all').on('click', function (e) {
+        e.preventDefault();
+        filter = 'all';
+        getAllTasks();
+    });
 
 
 
