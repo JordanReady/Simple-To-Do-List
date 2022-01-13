@@ -120,17 +120,14 @@ var filterTasks = function () {
         if (filter === 'active') {
             $('.true').addClass('hide');
             $('.false').removeClass('hide');
-            console.log('active');
         };
         if (filter === 'complete') {
             $('.false').addClass('hide');
             $('.true').removeClass('hide');
-            console.log('complete');
         };
         if (filter === 'all') {
             $('.true').removeClass('hide');
             $('.false').removeClass('hide');
-            console.log('all');
         }
         
     });
