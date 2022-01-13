@@ -7,22 +7,8 @@ $(document).ready(function(){
             dataType: 'json',
             success: function (response, textStatus) {
                 $('#todo-list').empty();
-                response.tasks.forEach(function(task, i) {
-                    if (response.tasks[i].completed === true && filter === 'active') {
-                        $('.task-row').addClass('hide');
-                        console.log('active')
-                    };
-                    if (response.tasks[i].completed === false && filter === 'complete') {
-                        $('.task-row').addClass('hide');
-                        console.log('complete')
-                    };
-                    if (filter === 'all') {
-                        $('.task-row').removeClass('hide');
-                    }
-                    
-                });
                 response.tasks.forEach(function (task) {
-                    $('#todo-list').append('<div class="row task-row"><p class="col-xs-8">' + task.content + '</p><button class="delete btn-danger" data-id="' + task.id + '">Delete</button><input type="checkbox" class="mark-complete" data-id="' + task.id + '"' + (task.completed ? 'checked' : '') + '>');
+                    $('#todo-list').append('<div class="row task-row ' + task.completed + '"><p class="col-xs-8">' + task.content + '</p><button class="delete btn-danger" data-id="' + task.id + '">Delete</button><input type="checkbox" class="mark-complete" data-id="' + task.id + '"' + (task.completed ? 'checked' : '') + '>');
             });
             },
             error: function (request, textStatus, errorMessage) {
@@ -115,19 +101,40 @@ $(document).ready(function(){
     $('#active').on('click', function (e) {
         e.preventDefault();
         filter = 'active';
-        getAllTasks();
+        filterTasks();
     });
     $('#complete').on('click', function (e) {
         e.preventDefault();
         filter = 'complete';
-        getAllTasks();
+        filterTasks();
     });
     $('#all').on('click', function (e) {
         e.preventDefault();
         filter = 'all';
-        getAllTasks();
+        filterTasks();
     });
 
+//Filter tasks function
+var filterTasks = function () {
+    $('p').each(function(task) {
+        if (filter === 'active') {
+            $('.true').addClass('hide');
+            $('.false').removeClass('hide');
+            console.log('active');
+        };
+        if (filter === 'complete') {
+            $('.false').addClass('hide');
+            $('.true').removeClass('hide');
+            console.log('complete');
+        };
+        if (filter === 'all') {
+            $('.true').removeClass('hide');
+            $('.false').removeClass('hide');
+            console.log('all');
+        }
+        
+    });
+}
 
 
 
